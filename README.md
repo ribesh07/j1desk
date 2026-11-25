@@ -131,3 +131,58 @@ dart run flutter_launcher_icons
 ```
 
 The settings are in `flutter_launcher_icons.yaml`.
+
+## Deploying to Google Play (GitHub Actions)
+
+[`.github/workflows/deploy-playstore.yml`](.github/workflows/deploy-playstore.yml) builds a signed
+release `.aab` and uploads it to the Play Console.
+
+- **Push a tag** such as `v1.0.1`: this releases to the **internal** track.
+- **Run it by hand**: in the Actions tab, choose *Deploy to Google Play* and then *Run workflow*,
+  and pick the track (`internal` / `alpha` / `beta` / `production`).
+
+The `versionCode` is the workflow run number plus the optional `BUILD_NUMBER_OFFSET` repository variable.
+The `versionName` comes from `version:` in `pubspec.yaml`, so bump it there for each release.
+
+### One-time setup
+
+1. **Create an upload keystore** (keep it and its passwords safe, because you can't replace it easily):
+   ```bash
+   keytool -genkey -v -keystore upload-keystore.jks -keyalg RSA -keysize 2048 \
+     -validity 10000 -alias upload
+   base64 -w0 upload-keystore.jks > keystore.b64   # contents go into ANDROID_KEYSTORE_BASE64
+   ```
+2. **Upload the first release by hand.** The Play API can't create an app, so in Play Console,
+   create the app `org.j1soft.tickets`, enable Play App Signing, and upload one `.aab`.
+   You can build it locally with `android/key.properties` (see below) or download it from a workflow run.
+   Until the app has been reviewed and published once, run the workflow with status **draft**.
+3. **Create a service account** for the API: in Google Cloud Console, open *IAM & Admin* and then
+   *Service accounts*, create one, and add a **JSON key**. Enable the *Google Play Android Developer API*.
+   Then in Play Console, open *Users and permissions*, invite the service account's email, and give it
+   release permissions for the app.
+4. **Add repository secrets** in GitHub under *Settings*, then *Secrets and variables*, then *Actions*:
+
+   | Secret | Value |
+   | --- | --- |
+   | `ANDROID_KEYSTORE_BASE64` | contents of `keystore.b64` |
+   | `ANDROID_KEYSTORE_PASSWORD` | keystore password |
+   | `ANDROID_KEY_ALIAS` | `upload` (or the alias you used) |
+   | `ANDROID_KEY_PASSWORD` | key password |
+   | `PLAY_SERVICE_ACCOUNT_JSON` | full contents of the service-account JSON key |
+   | `DOT_ENV` | full contents of your `.env` (if it's missing, `.env.example` is used) |
+
+   Optional **variable** `BUILD_NUMBER_OFFSET`: set it higher than any `versionCode` you have already
+   uploaded by hand (for example `10`).
+
+### Signing a release locally
+
+Create `android/key.properties` (it's gitignored):
+
+```properties
+storePassword=...
+keyPassword=...
+keyAlias=upload
+storeFile=/absolute/path/to/upload-keystore.jks
+```
+
+Then run `flutter build appbundle --release`. Without this file, release builds use the debug key.
