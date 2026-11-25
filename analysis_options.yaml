@@ -1,0 +1,13 @@
+# Static analysis settings (flutter analyze). See https://dart.dev/guides/language/analysis-options
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+
+linter:
+  rules:
+    # Keep `if (x != null) 'key': x` in maps/lists (easier to read than the `?x` syntax)
+    use_null_aware_elements: false

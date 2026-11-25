@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "10264810475",
+    "project_id": "j1soft",
+    "storage_bucket": "j1soft.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10264810475:android:01e74f632d909ace813fae",
+        "android_client_info": {
+          "package_name": "com.j1soft.erp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj4bc9yTdrkFa5u0w3fFx9IlC1o1kvXao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10264810475:android:6d27311df3b50ac8813fae",
+        "android_client_info": {
+          "package_name": "org.j1soft.tickets"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAj4bc9yTdrkFa5u0w3fFx9IlC1o1kvXao"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
