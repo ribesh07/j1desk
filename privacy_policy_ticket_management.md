@@ -109,6 +109,3 @@ For questions, concerns, or privacy requests related to this Privacy Policy, con
 **J1Soft**  
 **Email:** [info.j1soft@gmail.com](mailto:info.j1soft@gmail.com)
 
----
-
-*Before publishing, review this policy against the App’s actual features, SDKs, permissions, hosting setup, and data practices. Your Google Play Data Safety form and in-app disclosures must accurately reflect what the released App collects, shares, and processes.*
